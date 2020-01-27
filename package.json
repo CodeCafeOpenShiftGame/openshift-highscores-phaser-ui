@@ -1,7 +1,7 @@
 {
-  "name": "openshiftexamples-phaser3-highscores",
+  "name": "openshift-phaser-highscores-ui",
   "version": "1.0.0",
-  "description": "Example of using OpenShift to run a game built on the Phaser framework",
+  "description": "Example of using a UI built on the Phaser framework running in OpenShift",
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --config webpack/prod.js ",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dudash/openshiftexamples-phaser-highscores.git"
+    "url": "git+https://github.com/dudash/openshift-phaser-highscores-ui.git"
   },
   "author": "Jason Dudash <jason.dudash@gmail.com>",
   "license": "Apache 2.0",
   "licenseUrl": "http://www.apache.org/licenses/",
   "bugs": {
-    "url": "https://github.com/dudash/openshiftexamples-phaser-highscores/issues"
+    "url": "https://github.com/dudash/openshift-phaser-highscores-ui/issues"
   },
-  "homepage": "https://github.com/dudash/openshiftexamples-phaser-highscores",
+  "homepage": "https://github.com/dudash/openshift-phaser-highscores-ui",
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
