@@ -130,8 +130,8 @@ class InputPanel extends Phaser.Scene {
     }
     if (this.name.length === 3 && !(this.cursor.x === 8 && this.cursor.y === 2)) { // if all 3 characters input, limit to RUB or END
       this.cursor.set(9, 2);
-      this.block.x = this.text.x - 10 + (this.cursor.x * 52);
-      this.block.y = this.text.y - 2 + (this.cursor.y * 64);
+      this.block.x = this.text.x - 10 + (9 * 52);
+      this.block.y = this.text.y - 2 + (2 * 64);
     }
   }
 

@@ -33,7 +33,7 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 
 ### Deploying from GitHub to OpenShift
 This is also pretty easy with the help of Source 2 Image (aka s2i). Run the following (after replacing the github URL with yours):
-  >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/dudash/openshift-phaser-highscores-ui --build-env OUTPUT_DIR=dist`
+  >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/dudash/openshift-highscores-phaser-ui --build-env OUTPUT_DIR=dist`
 
 
 ## Credit & Thanks
