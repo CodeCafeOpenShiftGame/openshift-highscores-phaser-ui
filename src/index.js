@@ -121,10 +121,6 @@ class InputPanel extends Phaser.Scene {
       this.cursor.set(8, 2);
       this.pressKey();
     }
-    else if (code === Phaser.Input.Keyboard.KeyCodes.ENTER) {
-      this.cursor.set(9, 2);
-      this.pressKey();
-    }
     else if (code >= Phaser.Input.Keyboard.KeyCodes.A && code <= Phaser.Input.Keyboard.KeyCodes.Z) {
       code -= 65;
       let y = Math.floor(code / 10);
@@ -132,14 +128,19 @@ class InputPanel extends Phaser.Scene {
       this.cursor.set(x, y);
       this.pressKey();
     }
+    if (this.name.length === 3 && !(this.cursor.x === 8 && this.cursor.y === 2)) { // if all 3 characters input, limit to RUB or END
+      this.cursor.set(9, 2);
+      this.block.x = this.text.x - 10 + (this.cursor.x * 52);
+      this.block.y = this.text.y - 2 + (this.cursor.y * 64);
+    }
   }
 
   pressKey() {
     let x = this.cursor.x;
     let y = this.cursor.y;
-    let nameLength = this.name.length;
     this.block.x = this.text.x - 10 + (x * 52);
     this.block.y = this.text.y - 2 + (y * 64);
+    let nameLength = this.name.length;
     if (x === 9 && y === 2 && nameLength > 0) {
       this.events.emit('submitName', this.name); //  Submit
     }
