@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import ImgStar from "./assets/star-fun.png";
+import ImgStar from "./assets/tron.png";
 import ImgRub from "./assets/rub.png";
 import ImgEnd from "./assets/end.png";
 import ImgBlock from "./assets/block.png";
@@ -121,6 +121,10 @@ class InputPanel extends Phaser.Scene {
       this.cursor.set(8, 2);
       this.pressKey();
     }
+    else if (code === Phaser.Input.Keyboard.KeyCodes.ENTER) {
+      this.cursor.set(9, 2);
+      this.pressKey();
+    }
     else if (code >= Phaser.Input.Keyboard.KeyCodes.A && code <= Phaser.Input.Keyboard.KeyCodes.Z) {
       code -= 65;
       let y = Math.floor(code / 10);
@@ -160,7 +164,7 @@ class Starfield extends Phaser.Scene {
     this.stars;
     this.distance = 300;
     this.speed = 200;
-    this.max = 500;
+    this.max = 500;  // use 500 for star-small, and 100 for larger images
     this.xx = [];
     this.yy = [];
     this.zz = [];
@@ -180,8 +184,8 @@ class Starfield extends Phaser.Scene {
       this.yy[i] = Math.floor(Math.random() * window.innerHeight) - window.innerHeight/2;
       this.zz[i] = Math.floor(Math.random() * 1700) - 100;
       let perspective = this.distance / (this.distance - this.zz[i]);
-      let x = 400 + this.xx[i] * perspective;
-      let y = 300 + this.yy[i] * perspective;
+      let x = window.innerWidth/2 + this.xx[i] * perspective;
+      let y = window.innerHeight/2 + this.yy[i] * perspective;
       this.stars.create(x, y);
     }
   }
@@ -209,6 +213,7 @@ class Highscore extends Phaser.Scene {
   constructor() {
     super({ key: 'Highscore', active: true });
     this.playerText;
+    this.headerText;
   }
 
   preload() {
@@ -219,9 +224,12 @@ class Highscore extends Phaser.Scene {
   }
 
   create() {
-    this.add.bitmapText(100, 260, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
-    this.add.bitmapText(100, 310, 'arcade', '1ST   50000').setTint(0xff0000);
-    this.playerText = this.add.bitmapText(580, 310, 'arcade', '').setTint(0xff0000);
+    this.headerText = this.add.bitmapText(0, 260, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
+    this.headerText.setX(window.innerWidth/2 - this.headerText.width/2);
+    let tempFirst = this.add.bitmapText(0, 310, 'arcade', '1ST   50000').setTint(0xff0000);
+    tempFirst.setX(window.innerWidth/2 - this.headerText.width/2);
+    this.playerText = this.add.bitmapText(0, 310, 'arcade', '').setTint(0xff0000);
+    this.playerText.setX(window.innerWidth/2 - this.headerText.width/2 + 14*32); // 14 spaces over times the character width of 32
     this.input.keyboard.enabled = false; //  Do this, otherwise this Scene will steal all keyboard input
     this.scene.launch('InputPanel');
     let panel = this.scene.get('InputPanel');
@@ -231,10 +239,15 @@ class Highscore extends Phaser.Scene {
 
   submitName() {
     this.scene.stop('InputPanel');
-    this.add.bitmapText(100, 360, 'arcade', '2ND   40000    ANT').setTint(0xff8200);
-    this.add.bitmapText(100, 410, 'arcade', '3RD   30000    .-.').setTint(0xffff00);
-    this.add.bitmapText(100, 460, 'arcade', '4TH   20000    BOB').setTint(0x00ff00);
-    this.add.bitmapText(100, 510, 'arcade', '5TH   10000    ZIK').setTint(0x00bfff);
+    
+    let secondText = this.add.bitmapText(0, 360, 'arcade', '2ND   40000   ANT').setTint(0xff8200);
+    secondText.setX(window.innerWidth/2 - this.headerText.width/2);
+    let thirdText = this.add.bitmapText(0, 410, 'arcade', '3RD   30000   .-.').setTint(0xffff00);
+    thirdText.setX(window.innerWidth/2 - this.headerText.width/2);
+    let fourthText = this.add.bitmapText(0, 460, 'arcade', '4TH   20000   BOB').setTint(0x00ff00);
+    fourthText.setX(window.innerWidth/2 - this.headerText.width/2);
+    let fifthText = this.add.bitmapText(0, 510, 'arcade', '5TH   10000   ZIK').setTint(0x00bfff);
+    fifthText.setX(window.innerWidth/2 - this.headerText.width/2);
   }
 
   updateName(name) {
