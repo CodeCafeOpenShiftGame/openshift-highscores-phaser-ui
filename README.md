@@ -1,4 +1,4 @@
-# OpenShift Example - Phaser Game
+# OpenShift Example - Phaser Highscores
 
 A Phaser 3 project with ES6 support via [Babel 7](https://babeljs.io/) and [Webpack 4](https://webpack.js.org/)
 that includes hot-reloading for development and production-ready builds primed for OpenShift.
@@ -30,7 +30,7 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 
 ## Deploying from GitHub to OpenShift
 This is also pretty easy with the help of Source 2 Image (aka s2i). Runt the following (after replacing the github URL with yours):
-  >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/dudash/openshiftexamples-phaser-game --build-env OUTPUT_DIR=dist`
+  >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/dudash/openshiftexamples-phaser-highscores --build-env OUTPUT_DIR=dist`
 
 
 ## Credit & Thanks

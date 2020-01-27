@@ -1,5 +1,5 @@
 {
-  "name": "openshiftexamples-phaser3-game",
+  "name": "openshiftexamples-phaser3-highscores",
   "version": "1.0.0",
   "description": "Example of using OpenShift to run a game built on the Phaser framework",
   "main": "src/index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dudash/openshiftexamples-phaser-game.git"
+    "url": "git+https://github.com/dudash/openshiftexamples-phaser-highscores.git"
   },
   "author": "Jason Dudash <jason.dudash@gmail.com>",
   "license": "Apache 2.0",
   "licenseUrl": "http://www.apache.org/licenses/",
   "bugs": {
-    "url": "https://github.com/dudash/openshiftexamples-phaser-game/issues"
+    "url": "https://github.com/dudash/openshiftexamples-phaser-highscores/issues"
   },
-  "homepage": "https://github.com/dudash/openshiftexamples-phaser-game",
+  "homepage": "https://github.com/dudash/openshiftexamples-phaser-highscores",
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
