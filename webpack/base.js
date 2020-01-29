@@ -31,7 +31,8 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),
-      WEBGL_RENDERER: JSON.stringify(true)
+      WEBGL_RENDERER: JSON.stringify(true),
+      'process.env.DEBUG_INPUT': JSON.stringify(process.env.DEBUG_INPUT),
     }),
     new HtmlWebpackPlugin({
       template: "./index.html"

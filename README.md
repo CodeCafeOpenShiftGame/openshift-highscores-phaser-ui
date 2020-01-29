@@ -3,7 +3,7 @@
 A Phaser 3 project with ES6 support via [Babel 7](https://babeljs.io/) and [Webpack 4](https://webpack.js.org/)
 that includes hot-reloading for development and production-ready builds primed for OpenShift.
 
-![Screenshot](./.screens/highscore.gif)
+![Screenshot](./.screens/redscores.gif)
 
 ## Available Commands
 
@@ -20,7 +20,7 @@ Simple, that's just this:
 > `npm install; npm start`
 
 **(edit files all you want and hotdeploy will watch/update for you)**
-
+**set the env var `export DEBUG_INPUT=true` to see the input panel and allow setting high scores**
 
 ### Deploying from Local Dir to OpenShift
 When you run the `npm run build` command, your code will be built into a single bundle located at `dist/bundle.min.js` along with any other assets you project depends upon.
@@ -29,12 +29,13 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
   >`npx nodeshift --web-app --build.env OUTPUT_DIR=dist --expose`
 
 **(edit files and rerun `npx nodeshift` and it will update OpenShift for you)**
-
+**add the env config `--build.env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores**
 
 ### Deploying from GitHub to OpenShift
 This is also pretty easy with the help of Source 2 Image (aka s2i). Run the following (after replacing the github URL with yours):
   >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/dudash/openshift-highscores-phaser-ui --build-env OUTPUT_DIR=dist`
 
+**add the env config `--build-env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores**
 
 ## Credit & Thanks
-Thanks to Richard Davey @ Phaser for the [tutorial here](http://phaser.io/tutorials/retro-highscore-table) that this was initially based upon.
+Thanks to Richard Davey @ Phaser for the [tutorials here](http://phaser.io/tutorials/) that this was initially based upon.
