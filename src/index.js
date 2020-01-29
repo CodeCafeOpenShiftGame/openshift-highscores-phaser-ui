@@ -1,9 +1,9 @@
 import Phaser from "phaser";
 const path = require('path');
 
-import {InputPanel} from "./inputPanelScene"
-import {Starfield} from "./starfieldScene"
-import {Highscore} from "./highscoreScene"
+import { InputPanel } from "./inputPanelScene"
+import { Starfield } from "./starfieldScene"
+import { Highscore } from "./highscoreScene"
 
 // ----------------------------------------------------------------------------
 // THE GAME
@@ -24,3 +24,8 @@ let config = {
   scene: defaultScenes
 };
 let game = new Phaser.Game(config);
+
+const resize = () => {
+  // TODO support dynamic resizing?
+};
+window.addEventListener('resize', event => { resize() });

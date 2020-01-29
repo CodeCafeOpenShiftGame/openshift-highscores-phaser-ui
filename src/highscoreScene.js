@@ -22,11 +22,16 @@ export class Highscore extends Phaser.Scene {
     }
 
     create() {
+        let loadingScreen = document.getElementById('loading-screen')
+        if (loadingScreen) { // remove the loading screen
+            loadingScreen.classList.add('transparent')
+            this.time.addEvent({delay: 1000,callback: () => { loadingScreen.remove()}})
+        }
+
         this.headerText = this.add.bitmapText(0, 260, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
         this.headerText.setX(window.innerWidth / 2 - this.headerText.width / 2);
 
-        if (this.scene.get('InputPanel') != null) {
-            // TODO only if input panel is configured
+        if (this.scene.get('InputPanel') != null) { // only if input panel is configured
             let tempFirst = this.add.bitmapText(0, 310, 'arcade', '1ST   99999').setTint(0xffffff);
             tempFirst.setX(window.innerWidth / 2 - this.headerText.width / 2);
             this.playerText = this.add.bitmapText(0, 310, 'arcade', '').setTint(0xffffff);
@@ -42,12 +47,12 @@ export class Highscore extends Phaser.Scene {
             this.playerText = this.add.bitmapText(0, 310, 'arcade', '').setTint(0xff0000);
             this.playerText.setX(window.innerWidth / 2 - this.headerText.width / 2 + 14 * 32); // 14 spaces over times the character width of 32
 
-            // TODO kick off a timer to poll for scores
+            // TODO kick off a timer to query for scores? Or websockets tell us?
         }
     }
 
     getLatestScores() {
-        // TODO call the API service and display them
+        // TODO call the API service and display them (or should websockets tell us)
     }
 
     updateName(name) {
@@ -57,7 +62,7 @@ export class Highscore extends Phaser.Scene {
     submitName() {
         if (this.scene.get('InputPanel') != null) {
             this.scene.stop('InputPanel');
-            // TODO: we could still send a GET request for high scores paged to where your score is
+            // TODO: we should still send a GET request for high scores paged to where your score is
             let secondText = this.add.bitmapText(0, 360, 'arcade', '2ND   40000   ANT').setTint(0xff8200);
             secondText.setX(window.innerWidth / 2 - this.headerText.width / 2);
             let thirdText = this.add.bitmapText(0, 410, 'arcade', '3RD   30000   .-.').setTint(0xffff00);

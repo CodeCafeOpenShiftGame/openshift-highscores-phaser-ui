@@ -25,7 +25,7 @@
         justify-content: center;
         align-items: center;
         z-index: 1;
-        background-color: rgb(34, 18, 73);
+        background-color: rgb(46, 1, 1);
         user-select: none;
         transition: opacity 1s ease-in-out;
       }
@@ -42,11 +42,13 @@
 <body>
   <noscript>Please enable javascript to continue using this application.</noscript>
 
-  <!-- could use this as a loading screen if needed
-    <div id="loading-screen"><h2 id="item">loading...</h2></div> 
-  -->
+  <!-- <script src="/socket.io/socket.io.js"></script> -->
 
+  <!-- could use this as a loading screen if needed - need to hide it after game loads -->
+  <div id="loading-screen"><h2 id="item">loading...</h2></div> 
+  
   <div id="phaser-game"></div>
+
 </body>
 
 </html>

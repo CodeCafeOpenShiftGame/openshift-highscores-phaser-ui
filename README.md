@@ -38,4 +38,4 @@ This is also pretty easy with the help of Source 2 Image (aka s2i). Run the foll
 **add the env config `--build-env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores**
 
 ## Credit & Thanks
-Thanks to Richard Davey @ Phaser for the [tutorials here](http://phaser.io/tutorials/) that this was initially based upon.
+Thanks to Richard Davey @ Phaser for the [tutorials here](https://phaser.io/learn/community-tutorials) that this was initially based upon.
