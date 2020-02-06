@@ -19,6 +19,7 @@ export class Highscore extends Phaser.Scene {
         this.load.image('rub', ImgRub);
         this.load.image('end', ImgEnd);
         this.load.bitmapFont('arcade', FontArcade, FontArcadeXml);
+        global.ws.addEventListener('message', this.onmessage);
     }
 
     create() {
