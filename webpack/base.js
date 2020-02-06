@@ -33,6 +33,7 @@ module.exports = {
       CANVAS_RENDERER: JSON.stringify(true),
       WEBGL_RENDERER: JSON.stringify(true),
       'process.env.DEBUG_INPUT': JSON.stringify(process.env.DEBUG_INPUT),
+      'process.env.API_SERVER_URL': JSON.stringify(process.env.API_SERVER_URL),
     }),
     new HtmlWebpackPlugin({
       template: "./index.html"

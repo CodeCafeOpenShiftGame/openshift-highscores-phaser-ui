@@ -1,5 +1,5 @@
-import Phaser from "phaser";
-import ImgStar from "./assets/redcube.png"
+import Phaser from 'phaser';
+import ImgStar from './assets/redcube.png'
 
 export class Starfield extends Phaser.Scene {
 
@@ -15,7 +15,7 @@ export class Starfield extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("star", ImgStar);
+        this.load.image('star', ImgStar);
     }
 
     create() {

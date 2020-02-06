@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 export class InputPanel extends Phaser.Scene {
 

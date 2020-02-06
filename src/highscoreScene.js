@@ -1,10 +1,10 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
-import ImgRub from "./assets/rub.png";
-import ImgEnd from "./assets/end.png";
-import ImgBlock from "./assets/block.png";
-import FontArcade from "./assets/fonts/bitmap/arcade.png";
-import FontArcadeXml from "./assets/fonts/bitmap/arcade.xml";
+import ImgRub from './assets/rub.png';
+import ImgEnd from './assets/end.png';
+import ImgBlock from './assets/block.png';
+import FontArcade from './assets/fonts/bitmap/arcade.png';
+import FontArcadeXml from './assets/fonts/bitmap/arcade.xml';
 
 export class Highscore extends Phaser.Scene {
 
@@ -47,12 +47,12 @@ export class Highscore extends Phaser.Scene {
             this.playerText = this.add.bitmapText(0, 310, 'arcade', '').setTint(0xff0000);
             this.playerText.setX(window.innerWidth / 2 - this.headerText.width / 2 + 14 * 32); // 14 spaces over times the character width of 32
 
-            // TODO kick off a timer to query for scores? Or websockets tell us?
+            // let API server'swebsocket tell us when new scores are in
         }
     }
 
     getLatestScores() {
-        // TODO call the API service and display them (or should websockets tell us)
+        // TODO call the API service and display them (support the case websocket isn't working)
     }
 
     updateName(name) {
@@ -76,4 +76,7 @@ export class Highscore extends Phaser.Scene {
         }
     }
 
+    onmessage(event) {
+        console.log('HS - thanks for the message');
+    }
 }
