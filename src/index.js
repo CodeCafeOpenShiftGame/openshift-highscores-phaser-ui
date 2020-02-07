@@ -41,6 +41,5 @@ global.ws = new WebSocket(webSocketURL);
 global.ws.onopen = function open() {console.log('connected to ' + webSocketURL);};
 global.ws.onclose = function close() {console.log('disconnected from ' + webSocketURL);};
 global.ws.onmessage = function incoming(event) {
-  // just for debugging
-  console.log('got ws message: ' + event.data); //https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
+  // console.log('DEBUG, got ws message: ' + event.data); //https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 };

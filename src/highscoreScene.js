@@ -12,6 +12,15 @@ export class Highscore extends Phaser.Scene {
         super({ key: 'Highscore', active: true });
         this.playerText;
         this.headerText;
+        this.rowsText = [];
+        this.textRanks = [
+            '1ST   ', '2ND   ', '3RD   ', '4TH   ', '5TH   ',
+            '6TH   ', '7TH   ', '8TH   ', '9TH   ', '10TH  '
+        ];
+        this.textColors = [
+            0xffffff, 0xff8200, 0xffff00, 0x00ff00, 0x00bfff,
+            0xffffff, 0xff8200, 0xffff00, 0x00ff00, 0x00bfff
+        ];
     }
 
     preload() {
@@ -19,7 +28,7 @@ export class Highscore extends Phaser.Scene {
         this.load.image('rub', ImgRub);
         this.load.image('end', ImgEnd);
         this.load.bitmapFont('arcade', FontArcade, FontArcadeXml);
-        global.ws.addEventListener('message', this.onmessage);
+        global.ws.addEventListener('message', this.onmessage.bind(this));
     }
 
     create() {
@@ -28,11 +37,10 @@ export class Highscore extends Phaser.Scene {
             loadingScreen.classList.add('transparent')
             this.time.addEvent({delay: 1000,callback: () => { loadingScreen.remove()}})
         }
-
         this.headerText = this.add.bitmapText(0, 260, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
         this.headerText.setX(window.innerWidth / 2 - this.headerText.width / 2);
 
-        if (this.scene.get('InputPanel') != null) { // only if input panel is configured
+        if (this.scene.get('InputPanel') != null) { // only if DEBUG INPUT MODE is configured
             let tempFirst = this.add.bitmapText(0, 310, 'arcade', '1ST   99999').setTint(0xffffff);
             tempFirst.setX(window.innerWidth / 2 - this.headerText.width / 2);
             this.playerText = this.add.bitmapText(0, 310, 'arcade', '').setTint(0xffffff);
@@ -45,15 +53,31 @@ export class Highscore extends Phaser.Scene {
         } else {
             let tempFirst = this.add.bitmapText(0, 310, 'arcade', 'NO    SCORES   YET').setTint(0xffffff);
             tempFirst.setX(window.innerWidth / 2 - this.headerText.width / 2);
-            this.playerText = this.add.bitmapText(0, 310, 'arcade', '').setTint(0xff0000);
-            this.playerText.setX(window.innerWidth / 2 - this.headerText.width / 2 + 14 * 32); // 14 spaces over times the character width of 32
-
-            // let API server'swebsocket tell us when new scores are in
+            this.rowsText.push(tempFirst);
+            // FYI: we let the API server's websocket tell us when new scores are in - as a backup we could do a REST query
         }
     }
 
     getLatestScores() {
-        // TODO call the API service and display them (support the case websocket isn't working)
+        // TODO: call the API service and display them (support the case where the websocket isn't working)
+    }
+
+    displayLatestScores(mylist) {
+        const count = this.rowsText.length;
+        for (let i = 0; i < count; i++) {
+            var row = this.rowsText.pop();
+            row.destroy();
+        }
+        var jsonObj = JSON.parse(mylist);
+        var j = 0;
+        // console.log('full obj='+JSON.stringify(jsonObj));
+        for (var j = 0; j < jsonObj.length; j++) {
+            var dataj = jsonObj[j];
+            const fullString = this.textRanks[j] + dataj.score.toString().padEnd(8) + dataj.name;
+            var bitmapTextRow = this.add.bitmapText(0, 310+50*j, 'arcade', fullString).setTint(this.textColors[j]);
+            bitmapTextRow.setX(window.innerWidth / 2 - this.headerText.width / 2);
+            this.rowsText.push(bitmapTextRow)
+        }
     }
 
     updateName(name) {
@@ -63,7 +87,7 @@ export class Highscore extends Phaser.Scene {
     submitName() {
         if (this.scene.get('InputPanel') != null) {
             this.scene.stop('InputPanel');
-            // TODO: we should still send a GET request for high scores paged to where your score is
+            // TODO: we should still send a GET request for high scores paged to where your score is (even in DEBUG INPUT MODE)
             let secondText = this.add.bitmapText(0, 360, 'arcade', '2ND   40000   ANT').setTint(0xff8200);
             secondText.setX(window.innerWidth / 2 - this.headerText.width / 2);
             let thirdText = this.add.bitmapText(0, 410, 'arcade', '3RD   30000   .-.').setTint(0xffff00);
@@ -73,11 +97,22 @@ export class Highscore extends Phaser.Scene {
             let fifthText = this.add.bitmapText(0, 510, 'arcade', '5TH   10000   ZIK').setTint(0x00bfff);
             fifthText.setX(window.innerWidth / 2 - this.headerText.width / 2);
         } else {
-            // nothing, can't submit without the input panel
+            // nothing, never need to submit without the input panel
         }
     }
 
     onmessage(event) {
-        console.log('HS - thanks for the message');
+        // console.log('DEBUG, got the message:'+ event.data);
+        if (event.data.startsWith('topten:')) {
+            // console.log('DEBUG, got top ten');
+            const mylist = event.data.replace('topten:','');
+            this.displayLatestScores(mylist);
+        }
+        else if (event.data.startsWith('newscore:')) {
+            // console.log('DEBUG, got new score');   
+        }
+        else {
+            // ignore
+        }
     }
 }
