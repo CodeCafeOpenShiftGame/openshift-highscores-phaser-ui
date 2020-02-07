@@ -36,7 +36,10 @@ if (process.env.API_SERVER_URL != null) {
   apiServer = process.env.API_SERVER_URL;
 }
 const clientId = uuidv1();
-const webSocketURL = 'ws://' + apiServer + '/notifications/'+clientId;
+let webSocketURL = apiServer + '/notifications/'+clientId;
+if (!webSocketURL.startsWith('ws')) {  // add ws if not already set
+  webSocketURL = 'ws://' + webSocketURL;
+}
 global.ws = new WebSocket(webSocketURL);
 global.ws.onopen = function open() {console.log('connected to ' + webSocketURL);};
 global.ws.onclose = function close() {console.log('disconnected from ' + webSocketURL);};

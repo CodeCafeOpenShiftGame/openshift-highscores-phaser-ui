@@ -33,6 +33,7 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 >*(edit files and rerun `npx nodeshift` and it will update OpenShift for you)*
 >
 >*add the env config `--build.env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
+>*set the env var `--build.env API_SERVER_URL=ws://route_to_api_service:8080` to hook up to an API server*
 
 ### Deploying from GitHub to OpenShift
 This is also pretty easy with the help of Source 2 Image (aka s2i). Run the following (after replacing the github URL with yours):
