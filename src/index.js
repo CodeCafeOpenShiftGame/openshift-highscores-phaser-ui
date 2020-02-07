@@ -10,9 +10,9 @@ const uuidv1 = require('uuid/v1');
 // ----------------------------------------------------------------------------
 // THE GAME
 // ----------------------------------------------------------------------------
-console.warn('ENV: debug input = ' + process.env.DEBUG_INPUT);
 var defaultScenes = [Starfield, Highscore];
 if (process.env.DEBUG_INPUT === 'true') {
+  console.warn('ENV: debug input = ' + process.env.DEBUG_INPUT);
   defaultScenes = [Starfield, Highscore, InputPanel];
 }
 
@@ -30,13 +30,13 @@ game.events.off('hidden', game.onHidden, game, false); // not sure this is neede
 game.events.off('visible', game.onVisible, game, false); 
 
 // provide websockets to scenes that care
-var apiServer = 'highscores-api-service:8080';  // default
+var apiServer = 'localhost:5000';  // default
 if (process.env.API_SERVER_URL != null) {
-  console.warn('overriding the API server to be: '+ process.env.API_SERVER_URL);
+  console.warn('ENV: overriding the API server to be: '+ process.env.API_SERVER_URL);
   apiServer = process.env.API_SERVER_URL;
 }
 const clientId = uuidv1();
-let webSocketURL = apiServer + '/notifications/'+clientId;
+let webSocketURL = apiServer + '/notifications/' + clientId;
 if (!webSocketURL.startsWith('ws')) {  // add ws if not already set
   webSocketURL = 'ws://' + webSocketURL;
 }

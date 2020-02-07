@@ -5,6 +5,7 @@ import ImgEnd from './assets/end.png';
 import ImgBlock from './assets/block.png';
 import FontArcade from './assets/fonts/bitmap/arcade.png';
 import FontArcadeXml from './assets/fonts/bitmap/arcade.xml';
+const axios = require('axios');
 
 export class Highscore extends Phaser.Scene {
 
@@ -54,25 +55,39 @@ export class Highscore extends Phaser.Scene {
             let tempFirst = this.add.bitmapText(0, 310, 'arcade', 'NO    SCORES   YET').setTint(0xffffff);
             tempFirst.setX(window.innerWidth / 2 - this.headerText.width / 2);
             this.rowsText.push(tempFirst);
-            // FYI: we let the API server's websocket tell us when new scores are in - as a backup we could do a REST query
+            // FYI: we let the API server's websocket tell us when new scores are in - as a backup we could add a timer to call REST getLatestScores()
+            this.getLatestScores();
         }
     }
 
     getLatestScores() {
-        // TODO: call the API service and display them (support the case where the websocket isn't working)
+        // call the REST API service and display them
+        var apiServer = 'localhost:5000';  // default
+        if (process.env.API_SERVER_URL != null) {
+            console.warn('overriding the API server to be: '+ process.env.API_SERVER_URL);
+            apiServer = process.env.API_SERVER_URL;
+        }
+        const uriPrefix = 'http://';
+        var self=this;
+        axios.get(uriPrefix + apiServer + '/scores/topten/')
+        .then(function (response) {
+            self.displayLatestScores(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
-    displayLatestScores(mylist) {
+    displayLatestScores(mylistJSON) { // expects a JSON Object
         const count = this.rowsText.length;
         for (let i = 0; i < count; i++) {
             var row = this.rowsText.pop();
             row.destroy();
         }
-        var jsonObj = JSON.parse(mylist);
         var j = 0;
-        // console.log('full obj='+JSON.stringify(jsonObj));
-        for (var j = 0; j < jsonObj.length; j++) {
-            var dataj = jsonObj[j];
+        // console.log('obj='+JSON.stringify(mylistJSON));
+        for (var j = 0; j < mylistJSON.length; j++) {
+            var dataj = mylistJSON[j];
             const fullString = this.textRanks[j] + dataj.score.toString().padEnd(8) + dataj.name;
             var bitmapTextRow = this.add.bitmapText(0, 310+50*j, 'arcade', fullString).setTint(this.textColors[j]);
             bitmapTextRow.setX(window.innerWidth / 2 - this.headerText.width / 2);
@@ -106,7 +121,8 @@ export class Highscore extends Phaser.Scene {
         if (event.data.startsWith('topten:')) {
             // console.log('DEBUG, got top ten');
             const mylist = event.data.replace('topten:','');
-            this.displayLatestScores(mylist);
+            var jsonObj = JSON.parse(mylist);
+            this.displayLatestScores(jsonObj);
         }
         else if (event.data.startsWith('newscore:')) {
             // console.log('DEBUG, got new score');   
