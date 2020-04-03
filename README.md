@@ -35,12 +35,18 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 >*add the env config `--build.env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
 >*set the env var `--build.env API_SERVER_URL=route_to_api_service:80` to hook up to an API server*
 
+Expose our app to outside the cluster
+> `oc expose service openshift-highscores-phaser-ui`
+
 ### Deploying from GitHub to OpenShift
 This is also pretty easy with the help of Source 2 Image (aka s2i). Run the following (after replacing the github URL with yours):
   >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/CodeCafeOpenShiftGame/openshift-highscores-phaser-ui --build-env OUTPUT_DIR=dist`
 
 >*add the env config `--build-env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
 >*set the env var `--build-env API_SERVER_URL=route_to_api_service:80` to hook up to an API server*
+
+Expose our app to outside the cluster
+> `oc expose service openshift-highscores-phaser-ui`
 
 ## Credit & Thanks
 Thanks to Richard Davey @ Phaser for the [tutorials here](https://phaser.io/learn/community-tutorials) that this was initially based upon.
