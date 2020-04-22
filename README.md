@@ -33,7 +33,8 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 >*(edit files and rerun `npx nodeshift` and it will update OpenShift for you)*
 >
 >*add the env config `--build.env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
->*set the env var `--build.env API_SERVER_URL=route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build.env API_SERVER_URL=http://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build-env API_SERVER_WEBSOCKET_URL=ws://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
 
 Expose our app to outside the cluster
 > `oc expose service openshift-highscores-phaser-ui`
@@ -43,10 +44,14 @@ This is also pretty easy with the help of Source 2 Image (aka s2i). Run the foll
   >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/CodeCafeOpenShiftGame/openshift-highscores-phaser-ui --build-env OUTPUT_DIR=dist`
 
 >*add the env config `--build-env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
->*set the env var `--build-env API_SERVER_URL=route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build-env API_SERVER_URL=http://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build-env API_SERVER_WEBSOCKET_URL=ws://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
 
 Expose our app to outside the cluster
 > `oc expose service openshift-highscores-phaser-ui`
+
+### Other Notes
+* `API_SERVER_URL` and `API_SERVER_WEBSOCKET_URL` can use `https` and `wss` as long as they a both set to be secure
 
 ## Credit & Thanks
 Thanks to Richard Davey @ Phaser for the [tutorials here](https://phaser.io/learn/community-tutorials) that this was initially based upon.

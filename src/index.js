@@ -30,16 +30,18 @@ game.events.off('hidden', game.onHidden, game, false); // not sure this is neede
 game.events.off('visible', game.onVisible, game, false); 
 
 // provide websockets to scenes that care
-var apiServer = 'localhost:5000';  // default
-if (process.env.API_SERVER_URL != null) {
-  console.warn('ENV: overriding the API server to be: '+ process.env.API_SERVER_URL);
-  apiServer = process.env.API_SERVER_URL;
+
+var apiServerWebsocket = 'ws://localhost:5000';  // default
+if (process.env.API_SERVER_WEBSOCKET_URL != null) {
+  console.warn('ENV: overriding the API websocket server to be: '+ process.env.API_SERVER_WEBSOCKET_URL);
+  apiServerWebsocket = process.env.API_SERVER_WEBSOCKET_URL;
 }
 const clientId = uuidv1();
-let webSocketURL = apiServer + '/notifications/' + clientId;
+let webSocketURL = apiServerWebsocket + '/notifications/' + clientId;
 if (!webSocketURL.startsWith('ws')) {  // add ws if not already set
   webSocketURL = 'ws://' + webSocketURL;
 }
+
 global.ws = new WebSocket(webSocketURL);
 global.ws.onopen = function open() {console.log('connected to ' + webSocketURL);};
 global.ws.onclose = function close() {console.log('disconnected from ' + webSocketURL);};
