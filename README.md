@@ -22,6 +22,7 @@ Simple, that's just this:
 >*(edit files all you want and hotdeploy will watch/update for you)*
 >
 >*set the env var `export DEBUG_INPUT=true` to see the input panel and allow setting high scores*
+>
 >*set the env var `export API_SERVER_URL=localhost:5000` to hook up to an API server (if you're running one)*
 
 ### Deploying from Local Dir to OpenShift
@@ -33,7 +34,9 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 >*(edit files and rerun `npx nodeshift` and it will update OpenShift for you)*
 >
 >*add the env config `--build.env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
+>
 >*set the env var `--build.env API_SERVER_URL=http://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>
 >*set the env var `--build-env API_SERVER_WEBSOCKET_URL=ws://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
 
 Expose our app to outside the cluster
@@ -44,7 +47,9 @@ This is also pretty easy with the help of Source 2 Image (aka s2i). Run the foll
   >`oc new-app nodeshift/ubi8-s2i-web-app:latest~https://github.com/CodeCafeOpenShiftGame/openshift-highscores-phaser-ui --build-env OUTPUT_DIR=dist`
 
 >*add the env config `--build-env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
+>
 >*set the env var `--build-env API_SERVER_URL=http://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>
 >*set the env var `--build-env API_SERVER_WEBSOCKET_URL=ws://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
 
 Expose our app to outside the cluster
