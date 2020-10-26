@@ -7,7 +7,7 @@ module.exports = {
   mode: "development",
   devtool: "eval-source-map",
     devServer: {
-        publicPath: "/pod-escape-leaderboard"
+        publicPath: "/pity-about-earth-leaderboard"
     },
   module: {
     rules: [
