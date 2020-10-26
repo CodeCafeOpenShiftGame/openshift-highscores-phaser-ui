@@ -3,11 +3,16 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
+const publicPath = '/pod-escape-leaderboard';
+
 module.exports = {
   mode: "development",
   devtool: "eval-source-map",
+  output: {
+    publicPath
+  },
   devServer: {
-      publicPath: '/pod-escape-leaderboard/'
+      publicPath
   },
   module: {
     rules: [
