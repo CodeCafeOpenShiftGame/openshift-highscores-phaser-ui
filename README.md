@@ -10,23 +10,28 @@ that includes hot-reloading for development and production-ready builds primed f
 | Command | Description |
 |---------|-------------|
 | `npm install` | Install project dependencies |
-| `npm start` | Build project and open webserver for running project locally |
 | `npm run build` | Builds code as a bundle for production (minification, uglification, etc..) |
 
 
 ## Running this
 ### Running Locally
+
 Simple, that's just this:
-> `npm install; npm start`
+
+```
+npm install
+npm run build
+npx http-server dist
+```
 
 >*(edit files all you want and hotdeploy will watch/update for you)*
 >
 >*set the env var `export DEBUG_INPUT=true` to see the input panel and allow setting high scores*
 >
->*set the env var `export API_SERVER_URL=localhost:5000` to hook up to an API server (if you're running one)*
+>*set the env var `export API_SERVER_URL="'localhost:5000'"` to hook up to an API server (if you're running one)*
 
 ### Deploying from Local Dir to OpenShift
-When you run the `npm run build` command, your code will be built into a single bundle located at `dist/bundle.min.js` along with any other assets you project depends upon.
+When you run the `npm run build` command, your code will be built into a single bundle located at `dist/index.js` along with any other assets you project depends upon.
 
 Containerizing and pushing this app into your OpenShift cluster is easy with the help of [NodeShift](https://nodeshift.dev/). It will create the OpenShift configuration needed, do a build inside the cluster, then deploy the app, and expose a URL route into it. Just run this command
   >`npx nodeshift --web-app --build.env OUTPUT_DIR=dist --expose`
@@ -35,9 +40,9 @@ Containerizing and pushing this app into your OpenShift cluster is easy with the
 >
 >*add the env config `--build.env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
 >
->*set the env var `--build.env API_SERVER_URL=http://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build.env API_SERVER_URL="'http://route_to_api_service:80'"` to hook up to an API server (note this is the external openshift route not the service name)*
 >
->*set the env var `--build-env API_SERVER_WEBSOCKET_URL=ws://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build-env API_SERVER_WEBSOCKET_URL="'ws://route_to_api_service:80'"` to hook up to an API server (note this is the external openshift route not the service name)*
 
 Expose our app to outside the cluster
 > `oc expose service openshift-highscores-phaser-ui`
@@ -48,15 +53,16 @@ This is also pretty easy with the help of Source 2 Image (aka s2i). Run the foll
 
 >*add the env config `--build-env DEBUG_INPUT=true` to true to see the input panel and allow setting highscores*
 >
->*set the env var `--build-env API_SERVER_URL=http://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build-env API_SERVER_URL="'http://route_to_api_service:80'"` to hook up to an API server (note this is the external openshift route not the service name)*
 >
->*set the env var `--build-env API_SERVER_WEBSOCKET_URL=ws://route_to_api_service:80` to hook up to an API server (note this is the external openshift route not the service name)*
+>*set the env var `--build-env API_SERVER_WEBSOCKET_URL="'ws://route_to_api_service:80'"` to hook up to an API server (note this is the external openshift route not the service name)*
 
 Expose our app to outside the cluster
 > `oc expose service openshift-highscores-phaser-ui`
 
 ### Other Notes
 * `API_SERVER_URL` and `API_SERVER_WEBSOCKET_URL` can use `https` and `wss` as long as they a both set to be secure (use port 443)
+* Note that `API_SERVER_URL` and `API_SERVER_WEBSOCKET_URL`'s values must be JSON-parsable, which is why they have nested quotes in the examples above.  For example: `export API_SERVER_URL="'https://server.com/api'"`
 
 ## Credit & Thanks
 Thanks to Richard Davey @ Phaser for the [tutorials here](https://phaser.io/learn/community-tutorials) that this was initially based upon.
