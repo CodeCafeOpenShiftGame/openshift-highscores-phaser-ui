@@ -4,7 +4,7 @@
     "description": "Example of using a UI built on the Phaser framework running in OpenShift",
     "main": "src/index.js",
     "scripts": {
-        "build": "esbuild src/index.js --minify --format=esm --bundle --loader:.png=file --loader:.xml=file --outdir=dist --define:DEBUG_INPUT=${DEBUG_INPUT:-false} --define:API_SERVER_WEBSOCKET_URL=${API_SERVER_WEBSOCKET_URL:-null} --define:API_SERVER_URL=${API_SERVER_URL:-null} && cp index.html dist"
+        "build": "rm -rf dist > /dev/null; esbuild src/index.js --minify --format=esm --bundle --loader:.png=file --loader:.xml=file --outdir=dist --define:DEBUG_INPUT=${DEBUG_INPUT:-false} --define:API_SERVER_WEBSOCKET_URL=${API_SERVER_WEBSOCKET_URL:-null} --define:API_SERVER_URL=${API_SERVER_URL:-null} && cp index.html dist"
     },
     "repository": {
         "type": "git",
