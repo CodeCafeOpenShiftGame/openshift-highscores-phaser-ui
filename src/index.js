@@ -22,7 +22,7 @@ let config = {
   width: window.innerWidth,
   height: window.innerHeight,
   pixelArt: true,
-  backgroundColor: '#290d0d',
+  backgroundColor: '#000',
   scene: defaultScenes
 };
 let game = new Phaser.Game(config);
