@@ -63,9 +63,9 @@ export class Highscore extends Phaser.Scene {
     getLatestScores() {
         // call the REST API service and display them
         var apiServer = 'http://localhost:5000';  // default
-        if (process.env.API_SERVER_URL != null) {
-            console.warn('overriding the API server to be: '+ process.env.API_SERVER_URL);
-            apiServer = process.env.API_SERVER_URL;
+        if (API_SERVER_URL != null) {
+            console.warn('overriding the API server to be: '+ API_SERVER_URL);
+            apiServer = API_SERVER_URL;
         }
         if (!apiServer.startsWith('http')) {  // add http if not already set
             apiServer = 'http://' + apiServer;
