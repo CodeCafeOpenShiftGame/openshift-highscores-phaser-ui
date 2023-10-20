@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import ImgStar from './assets/asteroid.png'
+import ImgStar from './assets/just-pickaxe.png'
 
 export class Starfield extends Phaser.Scene {
 
@@ -8,7 +8,7 @@ export class Starfield extends Phaser.Scene {
         this.stars;
         this.distance = 300;
         this.speed = 200;
-        this.max = 500;  // use 500 for star-small, and 100 for larger images
+        this.max = 200;  // use 500 for star-small, and 100 for larger images
         this.xx = [];
         this.yy = [];
         this.zz = [];
