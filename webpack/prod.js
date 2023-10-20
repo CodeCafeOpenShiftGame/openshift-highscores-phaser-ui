@@ -7,7 +7,7 @@ module.exports = merge(base, {
   mode: "production",
   output: {
     filename: "bundle.min.js",
-    path: path.resolve(__dirname, '../dist/pity-about-earth-leaderboard')
+    path: path.resolve(__dirname, '../dist/stonehold-leaderboard')
   },
   devtool: false,
   performance: {
