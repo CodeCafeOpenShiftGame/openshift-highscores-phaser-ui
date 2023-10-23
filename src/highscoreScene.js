@@ -80,20 +80,27 @@ export class Highscore extends Phaser.Scene {
         });
     }
 
+
     displayLatestScores(mylistJSON) { // expects a JSON Object
-        const count = this.rowsText.length;
-        for (let i = 0; i < count; i++) {
-            var row = this.rowsText.pop();
-            row.destroy();
+        // clear existing score text
+        this.rowsText.forEach((row) => row.destroy());
+        this.rowsText = [];
+
+        // deduplicate player scores and display them
+        let scores_uniq = new Map();
+        for (let player of mylistJSON) {
+            scores_uniq.set(player.name, Math.max(player.score, scores_uniq.get(player.name) || 0));
+            if (scores_uniq.size == 10) break;
         }
-        var j = 0;
-        // console.log('obj='+JSON.stringify(mylistJSON));
-        for (var j = 0; j < mylistJSON.length; j++) {
-            var dataj = mylistJSON[j];
-            const fullString = this.textRanks[j] + dataj.score.toString().padEnd(8) + dataj.name;
-            var bitmapTextRow = this.add.bitmapText(0, 310+50*j, 'arcade', fullString).setTint(this.textColors[j]);
-            bitmapTextRow.setX(window.innerWidth / 2 - this.headerText.width / 2);
+
+        // display the scores
+        let x = window.innerWidth / 2 - this.headerText.width / 2;
+        let rank = 0;
+        for (let [name, score] of scores_uniq.entries()) {
+            const fullString = this.textRanks[rank] + score.toString().padEnd(8) + name;
+            var bitmapTextRow = this.add.bitmapText(x, 310 + 50 * rank, 'arcade', fullString).setTint(this.textColors[rank]);
             this.rowsText.push(bitmapTextRow)
+            rank += 1;
         }
     }
 
