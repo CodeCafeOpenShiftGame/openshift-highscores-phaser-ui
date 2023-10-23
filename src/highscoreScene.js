@@ -36,7 +36,7 @@ export class Highscore extends Phaser.Scene {
         let loadingScreen = document.getElementById('loading-screen')
         if (loadingScreen) { // remove the loading screen
             loadingScreen.classList.add('transparent')
-            this.time.addEvent({delay: 1000,callback: () => { loadingScreen.remove()}})
+            this.time.addEvent({ delay: 1000, callback: () => { loadingScreen.remove() } })
         }
         this.headerText = this.add.bitmapText(0, 260, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
         this.headerText.setX(window.innerWidth / 2 - this.headerText.width / 2);
@@ -64,36 +64,42 @@ export class Highscore extends Phaser.Scene {
         // call the REST API service and display them
         var apiServer = 'http://localhost:5000';  // default
         if (process.env.API_SERVER_URL != null) {
-            console.warn('overriding the API server to be: '+ process.env.API_SERVER_URL);
+            console.warn('overriding the API server to be: ' + process.env.API_SERVER_URL);
             apiServer = process.env.API_SERVER_URL;
         }
         if (!apiServer.startsWith('http')) {  // add http if not already set
             apiServer = 'http://' + apiServer;
         }
-        var self=this;
-        axios.get(apiServer + '/scores/topten/')
-        .then(function (response) {
-            self.displayLatestScores(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        var self = this;
+        axios.get(apiServer + '/scores/')
+            .then(function(response) {
+                self.displayLatestScores(response.data);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
     displayLatestScores(mylistJSON) { // expects a JSON Object
-        const count = this.rowsText.length;
-        for (let i = 0; i < count; i++) {
-            var row = this.rowsText.pop();
-            row.destroy();
+        // clear existing score text
+        this.rowsText.forEach((row) => row.destroy());
+        this.rowsText = [];
+
+        // deduplicate player scores and display them
+        let scores_uniq = new Map();
+        for (let player of mylistJSON) {
+            scores_uniq.set(player.name, Math.max(player.score, scores_uniq.get(player.name) || 0));
+            if (scores_uniq.size == 10) break;
         }
-        var j = 0;
-        // console.log('obj='+JSON.stringify(mylistJSON));
-        for (var j = 0; j < mylistJSON.length; j++) {
-            var dataj = mylistJSON[j];
-            const fullString = this.textRanks[j] + dataj.score.toString().padEnd(8) + dataj.name;
-            var bitmapTextRow = this.add.bitmapText(0, 310+50*j, 'arcade', fullString).setTint(this.textColors[j]);
-            bitmapTextRow.setX(window.innerWidth / 2 - this.headerText.width / 2);
+
+        // display the scores
+        let x = window.innerWidth / 2 - this.headerText.width / 2;
+        let rank = 0;
+        for (let [name, score] of scores_uniq.entries()) {
+            const fullString = this.textRanks[rank] + score.toString().padEnd(8) + name;
+            var bitmapTextRow = this.add.bitmapText(x, 310 + 50 * rank, 'arcade', fullString).setTint(this.textColors[rank]);
             this.rowsText.push(bitmapTextRow)
+            rank += 1;
         }
     }
 
@@ -122,7 +128,7 @@ export class Highscore extends Phaser.Scene {
         // console.log('DEBUG, got the message:'+ event.data);
         if (event.data.startsWith('topten:')) {
             // console.log('DEBUG, got top ten');
-            const mylist = event.data.replace('topten:','');
+            const mylist = event.data.replace('topten:', '');
             var jsonObj = JSON.parse(mylist);
             this.displayLatestScores(jsonObj);
         }

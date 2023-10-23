@@ -4,25 +4,26 @@ const base = require("./base");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = merge(base, {
-  mode: "production",
-  output: {
-    filename: "bundle.min.js",
-    path: path.resolve(__dirname, '../dist/stonehold-leaderboard')
-  },
-  devtool: false,
-  performance: {
-    maxEntrypointSize: 900000,
-    maxAssetSize: 900000
-  },
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          output: {
-            comments: false
-          }
-        }
-      })
-    ]
-  }
+    mode: "production",
+    output: {
+        filename: "bundle.min.js",
+        path: path.resolve(__dirname, '../dist/stonehold-leaderboard')
+    },
+    // devtool: false,
+    devtool: "eval-source-map",
+    performance: {
+        maxEntrypointSize: 900000,
+        maxAssetSize: 900000
+    },
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    output: {
+                        comments: false
+                    }
+                }
+            })
+        ]
+    }
 });
