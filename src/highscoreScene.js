@@ -128,9 +128,9 @@ export class Highscore extends Phaser.Scene {
         // console.log('DEBUG, got the message:'+ event.data);
         if (event.data.startsWith('topten:')) {
             // console.log('DEBUG, got top ten');
-            const mylist = event.data.replace('topten:', '');
-            var jsonObj = JSON.parse(mylist);
-            this.displayLatestScores(jsonObj);
+            // const mylist = event.data.replace('topten:', '');
+            // var jsonObj = JSON.parse(mylist);
+            // this.displayLatestScores(jsonObj);
         }
         else if (event.data.startsWith('newscore:')) {
             // console.log('DEBUG, got new score');   
