@@ -71,7 +71,7 @@ export class Highscore extends Phaser.Scene {
             apiServer = 'http://' + apiServer;
         }
         var self=this;
-        axios.get(apiServer + '/scores/topten/')
+        axios.get(apiServer + '/scores/')
         .then(function (response) {
             self.displayLatestScores(response.data);
         })
